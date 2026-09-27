@@ -1,0 +1,16 @@
+[Unit]
+Description=Cloudflared tunnel for discourse-cursor-bridge
+After=network-online.target discourse-cursor-bridge.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Quick-start tunnel: cloudflared mints a random *.trycloudflare.com hostname
+# on each start. Replace this with a named tunnel once the URL is wired into
+# Discourse Admin -> Webhooks. See README.md.
+ExecStart=/usr/bin/env cloudflared tunnel --no-autoupdate --url http://127.0.0.1:8787
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target

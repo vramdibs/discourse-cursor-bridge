@@ -1,0 +1,16 @@
+[Unit]
+Description=Discourse <-> Cursor agent bridge
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/workspace/bridge/discourse-cursor-bridge
+ExecStart=%h/workspace/bridge/discourse-cursor-bridge/.venv/bin/python -u server.py
+Restart=on-failure
+RestartSec=5
+# Make sure the agent inherits a sane PATH (cursor-agent lives in ~/.local/bin).
+Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin
+
+[Install]
+WantedBy=default.target
